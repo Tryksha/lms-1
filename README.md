@@ -4,6 +4,6 @@ Compete and Complete Together.
 
 Database Configurations are present in db_confiq.php.
 
-ADMIN LOGIN - 10001 , john@123
+ADMIN LOGIN - 1 , aditya
 
 USER LOGIN - 10002 , molly@123
