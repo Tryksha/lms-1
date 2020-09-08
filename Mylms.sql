@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:8889
--- Generation Time: Sep 07, 2020 at 01:32 PM
+-- Generation Time: Sep 08, 2020 at 12:30 PM
 -- Server version: 5.7.26
 -- PHP Version: 7.4.2
 
@@ -44,7 +44,7 @@ CREATE TABLE `account` (
 --
 
 INSERT INTO `account` (`FIRSTNAME`, `LASTNAME`, `EMAIL`, `USER_TYPE`, `DOJ`, `TIMEZONE`, `LANGUAGE`, `PROFILE_IMG`, `USER_ID`, `PASSWORD`, `REGISTRATION`, `LOGINTIME`, `DEPARTMENT`, `ROLE`, `STATUS`, `Group_Name`) VALUES
-('ADITYA', 'BHARDWAJ', 'aditya@gmail.com', 'ADMIN', '1970-01-01', 'KOLKATA', 'ENGLISH', NULL, '1', '$2y$10$Kz8fJeS8XKVA6u1IjOpNn.p6RM41V9cM03D27.erR0pSuiCqfZh7u', '2020-09-07', '05:56:41', 'technical', 'help', 'ACTIVE', 'ABT');
+('ADITYA', 'BHARDWAJ', 'aditya@gmail.com', 'ADMIN', '1970-01-01', 'KOLKATA', 'ENGLISH', NULL, '1', '$2y$10$Kz8fJeS8XKVA6u1IjOpNn.p6RM41V9cM03D27.erR0pSuiCqfZh7u', '2020-09-07', '05:30:21', 'technical', 'help', 'ACTIVE', 'AB');
 
 -- --------------------------------------------------------
 
@@ -62,16 +62,18 @@ CREATE TABLE `courses` (
                            `STATUS` varchar(20) NOT NULL,
                            `UPLOAD_DATE` varchar(20) NOT NULL,
                            `ASSESSMENT` varchar(20) NOT NULL,
-                           `CERTIFICATE` longblob NOT NULL
+                           `CERTIFICATE` longblob NOT NULL,
+                           `ASSIGNUSER` varchar(1000) DEFAULT 'No User',
+                           `ASSIGNGROUP` varchar(1000) DEFAULT 'Not in Any Group'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `courses`
 --
 
-INSERT INTO `courses` (`NAME`, `COURSE_ID`, `COURSE_IMG`, `DURATION`, `DESCRIPTION`, `VIDEO`, `STATUS`, `UPLOAD_DATE`, `ASSESSMENT`, `CERTIFICATE`) VALUES
-('PYHON', '2000', 0x66756c6c2d73637265656e2d696d6167652d332e6a7067, '00:12:34', 'VERY GOOD', 0x6d6f7669652e6d7034, 'ACTIVE', '04-09-2020', 'No Assesment', 0x6473686d61696e2e706e67),
-('JAVA & PHP', '2001', 0x66756c6c2d73637265656e2d696d6167652d332e6a7067, '00:34:56', 'NICE', 0x6d6f7669652e6d7034, 'ACTIVE', '04-09-2020', 'No Assesment', 0x6473686d61696e2e706e67);
+INSERT INTO `courses` (`NAME`, `COURSE_ID`, `COURSE_IMG`, `DURATION`, `DESCRIPTION`, `VIDEO`, `STATUS`, `UPLOAD_DATE`, `ASSESSMENT`, `CERTIFICATE`, `ASSIGNUSER`, `ASSIGNGROUP`) VALUES
+('PYHON', '2000', 0x66756c6c2d73637265656e2d696d6167652d332e6a7067, '00:12:34', 'VERY GOOD', 0x6d6f7669652e6d7034, 'ACTIVE', '04-09-2020', 'No Assesment', 0x6473686d61696e2e706e67, 'No User', 'Not in Any Group'),
+('JAVA & PHP', '2001', 0x66756c6c2d73637265656e2d696d6167652d332e6a7067, '00:34:56', 'NICE', 0x6d6f7669652e6d7034, 'ACTIVE', '04-09-2020', 'No Assesment', 0x6473686d61696e2e706e67, 'No User', 'Not in Any Group');
 
 -- --------------------------------------------------------
 
@@ -114,9 +116,7 @@ CREATE TABLE `group_users` (
 --
 
 INSERT INTO `group_users` (`Group_ID`, `Group_Name`) VALUES
-(1, 'abass'),
-(4, 'ABTA'),
-(3, 'Aditya Bhardwaj');
+(1, 'AB');
 
 -- --------------------------------------------------------
 
@@ -316,7 +316,10 @@ INSERT INTO `user_log` (`COUNTER`, `USER_ID`, `USER_NAME`, `LOGINTIME`) VALUES
 (300, 1, 'ADITYA BHARDWAJ', '2020-09-06 18:30:00'),
 (301, 1, 'ADITYA BHARDWAJ', '2020-09-06 18:30:00'),
 (302, 1, 'ADITYA BHARDWAJ', '2020-09-06 18:30:00'),
-(303, 1, 'ADITYA BHARDWAJ', '2020-09-06 18:30:00');
+(303, 1, 'ADITYA BHARDWAJ', '2020-09-06 18:30:00'),
+(304, 1, 'ADITYA BHARDWAJ', '2020-09-07 18:30:00'),
+(305, 1, 'ADITYA BHARDWAJ', '2020-09-07 18:30:00'),
+(306, 1, 'ADITYA BHARDWAJ', '2020-09-07 18:30:00');
 
 --
 -- Indexes for dumped tables
@@ -327,6 +330,7 @@ INSERT INTO `user_log` (`COUNTER`, `USER_ID`, `USER_NAME`, `LOGINTIME`) VALUES
 --
 ALTER TABLE `account`
     ADD PRIMARY KEY (`USER_ID`),
+    ADD UNIQUE KEY `Group_Name` (`Group_Name`),
     ADD KEY `USER_ID` (`USER_ID`);
 
 --
@@ -382,13 +386,13 @@ ALTER TABLE `COURSE_LOG`
 -- AUTO_INCREMENT for table `group_users`
 --
 ALTER TABLE `group_users`
-    MODIFY `Group_ID` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+    MODIFY `Group_ID` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `user_log`
 --
 ALTER TABLE `user_log`
-    MODIFY `COUNTER` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=304;
+    MODIFY `COUNTER` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=307;
 
 --
 -- Constraints for dumped tables
