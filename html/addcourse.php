@@ -17,12 +17,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
     $assessment = ($_POST["assessment"]);
     $duration = ($_POST["duration"]);
     $certificate = ($_POST["certificate"]);
+    $selectgroup = ($_POST["selectgroup"]);
+    $selectuser = ($_POST["selectuser"]);
 
 
-    $sql1 = "INSERT INTO courses(NAME,COURSE_ID,COURSE_IMG,DURATION,DESCRIPTION,VIDEO,STATUS,UPLOAD_DATE,ASSESSMENT,CERTIFICATE) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $sql1 = "INSERT INTO courses(NAME,COURSE_ID,COURSE_IMG,DURATION,DESCRIPTION,VIDEO,STATUS,UPLOAD_DATE,ASSESSMENT,CERTIFICATE,ASSIGNUSER,ASSIGNGROUP) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     mysqli_error($conn);
     if($stmt1 = mysqli_prepare($conn, $sql1))
-        mysqli_stmt_bind_param($stmt1, "ssssssssss",$coursename,$course_id,$course_img,$duration,$courseDescription,$video,$status,$Upload,$assessment,$certificate);
+        mysqli_stmt_bind_param($stmt1, "ssssssssssss",$coursename,$course_id,$course_img,$duration,$courseDescription,$video,$status,$Upload,$assessment,$certificate,$selectuser,$selectgroup);
 
     if(mysqli_stmt_execute($stmt1))
     {
@@ -199,9 +201,6 @@ margin-bottom:10px;
   color: #43BE31;
 margin-left:10%;
 }
-
-
-
 </style>
 </head>
 <body class="w3-light-grey">
@@ -342,6 +341,43 @@ echo' </strong></span><br></h4>';
         <div class="col-25">
             <label for="certificate">Certificate:</label></div>
         <input type="file" id="certificate" name="certificate" placeholder="File Location"  required><br>
+
+        <div class="col-25">
+            <label for="assign">Assign:</label></div>
+
+                <?php
+                $sql = "SELECT * FROM account";
+                mysqli_error($conn);
+                if($stmt = mysqli_prepare($conn, $sql))
+                    mysqli_stmt_bind_param($stmt);
+
+                if(mysqli_stmt_execute($stmt)) {
+                    $result = mysqli_stmt_get_result($stmt);
+                    echo '<select name="selectuser">
+                    <option>Select User</option>
+                    <option>No User</option>';
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        echo '<option value="'.$row['USER_ID'].'">'.$row['FIRSTNAME']. ' '.$row['LASTNAME'].'</option>';
+                    }
+                    echo '</select>';
+                }
+                $sql = "SELECT * FROM group_users";
+                mysqli_error($conn);
+                if($stmt = mysqli_prepare($conn, $sql))
+                    mysqli_stmt_bind_param($stmt);
+
+                if(mysqli_stmt_execute($stmt)) {
+                    $result = mysqli_stmt_get_result($stmt);
+                    echo '<select name="selectgroup">
+                    <option>Select Group</option>
+                    <option>Not in Any Group</option>';
+                    while ($row = mysqli_fetch_assoc($result)) {
+
+                        echo '<option value="'.$row['Group_ID'].'">'.$row['Group_Name'].'</option>';
+                    }
+                }
+                echo '</select><br>';
+                ?>
 
         <div class="y">
             <input type="radio" id="active" name="status" value="ACTIVE" checked>
